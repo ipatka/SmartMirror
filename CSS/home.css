@@ -1,7 +1,8 @@
 body{
-	background-color: #10222B; 
+	background-color: black; 
 	font-family: Futura, sans-serif;
 	font-weight: 100;
+	color: white;
 /*	min-width: 850px;
 */
 }
