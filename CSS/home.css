@@ -1,8 +1,6 @@
-body{
-	background-color: black; 
-	font-family: Futura, sans-serif;
-	font-weight: 100;
-	color: white;
-/*	min-width: 850px;
-*/
+body {
+  padding: 45px 0;
+  font: 30px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  background: black;
+  color: white;
 }
