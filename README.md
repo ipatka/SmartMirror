@@ -16,3 +16,10 @@ Google now functionality like:
 -Best route to work (if it's morning)
 -Packages being delivered
 -Flight information
+
+
+RSS feed of information
+-Calendar Events
+-News Headlines
+-Stock
+-To Do?

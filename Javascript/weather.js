@@ -9,11 +9,11 @@ function getWeather() {
     unit: 'f',
     success: function(weather) {
 
+        html = '<div>Right Now</div>';
+        html += '<div>'+'<i class="icon-'+weather.code+'"></i>'+weather.temp+'&deg;'+weather.units.temp+'</div>';
+        
 
-        html = '<div>'+'<i class="icon-'+weather.code+'"></i>'+weather.temp+'&deg;'+weather.units.temp+'</div>';
-        html += '<div>'+weather.currently+'</div>';
-
-        html += '<div>'+weather.high+'&deg;'+'/'+weather.low+'&deg;'+'</div>';
+        html += '<div>Today</div><div>'+weather.high+'&deg;'+'/'+weather.low+'&deg;'+'</div>';
         html += '<div>'+weather.text+'</div>';
   
       $("#weather").html(html);

@@ -1,6 +1,6 @@
 body {
   padding: 45px 0;
-  font: 30px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font: 45px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: black;
   color: white;
 }
@@ -33,9 +33,7 @@ body {
 
 #weather {
   width: 500px;
-  margin: 0px auto;
-  text-align: center;
-  text-transform: uppercase;
+  /*text-transform: uppercase;*/
 }
 
 i {

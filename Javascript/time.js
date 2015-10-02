@@ -12,7 +12,7 @@ function startTime() {
     var day = today.getDay();
 
     day = checkDay(day);
-    date = date+checkDate();
+    date = date+checkDate(date);
 
 	$('#date').text(day+" the "+date);
 
