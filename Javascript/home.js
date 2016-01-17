@@ -1,5 +1,14 @@
 $(document).ready(function(){
 
+$('#toggle').click(function(){
+		// alert('click');
+
+$.post("/Controller/LIFX.php", {toggle : 'couch'} ,function() {
+				// alert('toggle');
+		});
+
+	});
+
 
 });
 
