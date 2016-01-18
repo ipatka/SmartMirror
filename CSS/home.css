@@ -1,8 +1,10 @@
 body {
-  padding: 45px 0;
+  width: 1024px;
+  height: 600px;
+  border: 1px solid black;
   font: 45px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  background: black;
-  color: white;
+  background: white;
+  color: black;
 }
 
 /*Weather*/
@@ -17,6 +19,78 @@ body {
 
   DO NOT hotlink the assets/font included in this demo. If you wish to use the same font icon then download it to your local assets at the link above. If you use the links below odds are at some point they will be removed and your version will break.
 */
+
+
+.screen_left{
+  margin: 0px;
+  padding: 0px;
+  float: left;
+  height: 100%;
+  width: 30%;
+}
+
+.screen_right{
+  float: left;
+  height: 100%;
+  width: 70%;
+}
+
+.right_upper{
+  height: 390px;
+  width: 100%;
+}
+
+#weather{
+  height: 100%;
+  width: 100%;
+}
+
+.right_lower{
+  height: 210px;
+  width: 100%;
+}
+
+.left_upper{
+  height: 65%;
+  width: 100%;
+}
+
+.left_lower{
+  height: 35%;
+  width: 100%;
+}
+
+.buttons{
+height: 100%;
+}
+
+.button{
+  display: inline-block;
+  height: 150px;
+  width: 150px;
+  text-align: center;
+}
+
+.button_icon{
+  height: auto;
+  width: 100%;
+}
+
+.button_icon_with_text{
+  height: 85%;
+  width: auto;
+}
+
+.button_text{
+  width: 100%;
+  height: 25%;
+  font-size: 25px;
+}
+
+#map{
+  height: 100%;
+}
+
 
 @font-face {
     font-family: 'weather';
@@ -37,7 +111,7 @@ body {
 }
 
 i {
-  color: #fff;
+  color: black;
   font-family: weather;
   font-size: 150px;
   font-weight: normal;
@@ -94,3 +168,5 @@ i {
 .icon-46:before { content: "U"; }
 .icon-47:before { content: "S"; }
 
+
+/*Weather*/
