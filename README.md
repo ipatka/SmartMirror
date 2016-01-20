@@ -3,6 +3,9 @@ Desired Functions:
 Time (world clock too)
 Weather/ Weather forecast
 Also, current weather in NY
+Tide times, sunrise, sunset
+for scraping
+http://ca.usharbors.com/monthly-tides/global/San%20Diego/2016-01?print=true
 
 Stocks
 
