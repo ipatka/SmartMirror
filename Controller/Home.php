@@ -1,7 +1,7 @@
 <?php
 
 include 'Base.php';
-include 'scrapetest.php';
+include 'tidescrape.php';
 
 
 class Controller_Home extends Controller_Base {
