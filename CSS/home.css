@@ -1,8 +1,10 @@
 body {
-  width: 1024px;
-  height: 600px;
+  width: 800px;
+  /*was 1024*/
+  height: 480px;
+  /*was 600*/
   border: 1px solid black;
-  font: 45px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font: 40px 'Open Sans', "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
   background: white;
   color: black;
 }
@@ -36,7 +38,7 @@ body {
 }
 
 .right_upper{
-  height: 390px;
+  height: 312px;
   width: 100%;
 }
 
@@ -46,7 +48,7 @@ body {
 }
 
 .right_lower{
-  height: 210px;
+  height: 168px;
   width: 100%;
 }
 
@@ -66,8 +68,8 @@ height: 100%;
 
 .button{
   display: inline-block;
-  height: 150px;
-  width: 150px;
+  height: 100px;
+  width: 100px;
   text-align: center;
 }
 
@@ -84,7 +86,7 @@ height: 100%;
 .button_text{
   width: 100%;
   height: 25%;
-  font-size: 25px;
+  font-size: 20px;
 }
 
 #map{

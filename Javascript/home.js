@@ -17,11 +17,11 @@ $('#traffic').click(function(){
 	$(".buttons").css('display','none');
 	$("#map").css('display','block');
 	$(".right_upper").animate({
-		height: '-=150px'
+		height: '-=100px'
 	},
 	{ duration: 1000, queue: false });
 	$(".right_lower").animate({
-		height: '+=150px'
+		height: '+=100px'
 	},
 	{ duration: 1000, queue: false });
 	initMap();
@@ -32,11 +32,11 @@ $(".right_upper").click(function(){
 	$(".buttons").css('display','block');
 	$("#map").css('display','none');
 	$(".right_upper").animate({
-		height: '+=150px'
+		height: '+=100px'
 	},
 	{ duration: 1000, queue: false });
 	$(".right_lower").animate({
-		height: '-=150px'
+		height: '-=100px'
 	},
 	{ duration: 1000, queue: false });
 	// $(".right_upper").css('height','390px');
