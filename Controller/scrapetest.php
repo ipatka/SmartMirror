@@ -4,15 +4,6 @@
 	scrape_tides();
 
 
-	function tdrows($elements)
-	{
-	    $str = "";
-	    foreach ($elements as $element) {
-	        $str .= $element->nodeValue;
-	    }
-
-	    return $str;
-	}
 
 	function tdrows_to_array($elements)
 	{
@@ -26,7 +17,7 @@
 			foreach($elements as $element) {
 				array_push($array, $element->nodeValue);
 			}
-		} else if ($elements->item(0)->nodeValue == ($day + 1)) {
+		} else if ($elements->item(0)->nodeValue == ($day + 1)) { // should be +1
 			foreach($elements as $element) {
 				array_push($array, $element->nodeValue);
 			}
@@ -35,22 +26,6 @@
 	    return $array;
 	}
 
-function getdata()
-{
-
-	$html = file_get_contents("http://ca.usharbors.com/monthly-tides/global/San%20Diego/2016-01");
-    $tides_doc = new DOMDocument();
-    libxml_use_internal_errors(TRUE); //disable libxml errors
-
-    if(!empty($html)){
-    	$tides_doc->loadHTML($html);
-    	$items = $tides_doc->getElementsByTagName('tr');
-    	foreach ($items as $node) {
-        echo tdrows($node->childNodes);
-    }
-    }
-
-}
 
 function getdatabyclass($link,$classname) {
 	$html = file_get_contents($link);
@@ -126,32 +101,182 @@ function scrape_tides() {
 
 
 		$tides_lookup_array = [
-				"today_am_high" => trim($tidesarray[6]),
-				"today_pm_high" => trim($tidesarray[10]),
-				"today_am_low" => trim($tidesarray[16]),
-				"today_pm_low" => trim($tidesarray[20]),
+				"today_high_1" => trim($tidesarray[6]),
+				"today_high_2" => trim($tidesarray[10]),
+				"today_low_1" => trim($tidesarray[16]),
+				"today_low_2" => trim($tidesarray[20]),
 				"today_sunrise" => trim($tidesarray[26]),
 				"today_sunset" => trim($tidesarray[28]),
 
-				"tomorrow_am_high" => trim($tidesarray[38]),
-				"tomorrow_pm_high" => trim($tidesarray[42]),
-				"tomorrow_am_low" => trim($tidesarray[48]),
-				"tomorrow_pm_low" => trim($tidesarray[52]),
+				"tomorrow_high_1" => trim($tidesarray[38]),
+				"tomorrow_high_2" => trim($tidesarray[42]),
+				"tomorrow_low_1" => trim($tidesarray[48]),
+				"tomorrow_low_2" => trim($tidesarray[52]),
 				"tomorrow_sunrise" => trim($tidesarray[58]),
 				"tomorrow_sunset" => trim($tidesarray[60])
 
 		];
-		
+
+		$tides_ampm_lookup_array = [
+				"today_high_1" => 'am',
+				"today_high_2" => 'pm',
+				"today_low_1" => 'am',
+				"today_low_2" => 'pm',
+				"today_sunrise" => 'am',
+				"today_sunset" => 'pm',
+
+				"tomorrow_high_1" => 'am',
+				"tomorrow_high_2" => 'pm',
+				"tomorrow_low_1" => 'am',
+				"tomorrow_low_2" => 'pm',
+				"tomorrow_sunrise" => 'am',
+				"tomorrow_sunset" => 'pm'
+		];
+
+		// print_r($tides_lookup_array);
+		// print_r($tides_ampm_lookup_array);
+
 		foreach ($tides_lookup_array as $key => $value) {
-			if(strlen($value) == 10)
-				{echo $tides_lookup_array[$i];
+			
+			if (strlen($value) == 0) {
+				switch ($key) {
+					case 'today_high_1':
+						if(strlen($tides_lookup_array['today_high_2']) > 5) {
+							$tides_ampm_lookup_array['today_high_1'] = 'pm';
+						} else {
+							$tides_ampm_lookup_array['today_high_1'] = 'none';
+						}
+						break;
+
+					case 'today_high_2':
+						if(strlen($tides_lookup_array['today_high_1']) > 5) {
+							$tides_ampm_lookup_array['today_high_2'] = 'am';
+						} else {
+							$tides_ampm_lookup_array['today_high_2'] = 'none';
+						}						
+						break;
+
+					case 'today_low_1':
+						if(strlen($tides_lookup_array['today_low_2']) > 5) {
+							$tides_ampm_lookup_array['today_low_1'] = 'pm';
+						} else {
+							$tides_ampm_lookup_array['today_low_1'] = 'none';
+						}						
+						break;
+
+					case 'today_low_2':
+						if(strlen($tides_lookup_array['today_low_1']) > 5) {
+							$tides_ampm_lookup_array['today_low_2'] = 'am';
+						} else {
+							$tides_ampm_lookup_array['today_low_2'] = 'none';
+						}						
+						break;
+
+					case 'tomorrow_high_1':
+						if(strlen($tides_lookup_array['tomorrow_high_2']) > 5) {
+							$tides_ampm_lookup_array['tomorrow_high_1'] = 'pm';
+						} else {
+							$tides_ampm_lookup_array['tomorrow_high_1'] = 'none';
+						}
+						break;
+
+					case 'tomorrow_high_2':
+						if(strlen($tides_lookup_array['tomorrow_high_1']) > 5) {
+							$tides_ampm_lookup_array['tomorrow_high_2'] = 'am';
+						} else {
+							$tides_ampm_lookup_array['tomorrow_high_2'] = 'none';
+						}						
+						break;
+
+					case 'tomorrow_low_1':
+						if(strlen($tides_lookup_array['tomorrow_low_2']) > 5) {
+							$tides_ampm_lookup_array['tomorrow_low_1'] = 'pm';
+						} else {
+							$tides_ampm_lookup_array['tomorrow_low_1'] = 'none';
+						}						
+						break;
+
+					case 'tomorrow_low_2':
+						if(strlen($tides_lookup_array['tomorrow_low_1']) > 5) {
+							$tides_ampm_lookup_array['tomorrow_low_2'] = 'am';
+						} else {
+							$tides_ampm_lookup_array['tomorrow_low_2'] = 'none';
+						}						
+						break;
+					
+					default:
+						// nothing changes
+						break;
+				}				
+			}
+
+			if(strlen($value) == 10) {
+				
+				switch ($key) {
+					case 'today_high_1':
+						$tides_lookup_array["today_high_1"] = substr($value, 0, 5);
+						$tides_lookup_array["today_high_2"] = substr($value, 5, 5);
+						break;
+
+					case 'today_high_2':
+						$tides_lookup_array["today_high_1"] = substr($value, 0, 5);
+						$tides_lookup_array["today_high_2"] = substr($value, 5, 5);
+						break;
+
+					case 'today_low_1':
+						$tides_lookup_array["today_low_1"] = substr($value, 0, 5);
+						$tides_lookup_array["today_low_2"] = substr($value, 5, 5);
+						break;
+
+					case 'today_low_2':
+						$tides_lookup_array["today_low_1"] = substr($value, 0, 5);
+						$tides_lookup_array["today_low_2"] = substr($value, 5, 5);
+						break;
+
+					case 'tomorrow_high_1':
+						$tides_lookup_array["tomorrow_high_1"] = substr($value, 0, 5);
+						$tides_lookup_array["tomorrow_high_2"] = substr($value, 5, 5);
+						break;
+
+					case 'tomorrow_high_2':
+						$tides_lookup_array["tomorrow_high_1"] = substr($value, 0, 5);
+						$tides_lookup_array["tomorrow_high_2"] = substr($value, 5, 5);
+						break;
+
+					case 'tomorrow_low_1':
+						$tides_lookup_array["tomorrow_low_1"] = substr($value, 0, 5);
+						$tides_lookup_array["tomorrow_low_2"] = substr($value, 5, 5);
+						break;
+
+					case 'tomorrow_low_2':
+						$tides_lookup_array["tomorrow_low_1"] = substr($value, 0, 5);
+						$tides_lookup_array["tomorrow_low_2"] = substr($value, 5, 5);
+						break;
+					
+					default:
+						# code...
+						break;
 				}
+			
+			}
+			
 			
 		}
 
 		// echo $tidesarray[0];
 
-		print_r($tides_lookup_array);
+		// print_r($tides_lookup_array);
+
+		// print_r($tides_ampm_lookup_array);
+
+		foreach ($tides_lookup_array as $key => $value) {
+			$tides_lookup_array[$key] = $tides_lookup_array[$key].$tides_ampm_lookup_array[$key];
+		}
+
+		// print_r($tides_lookup_array)
+
+		return $tides_lookup_array;
+
 
 	}
 }

@@ -1,6 +1,7 @@
 <?php
 
 include 'Base.php';
+include 'scrapetest.php';
 
 
 class Controller_Home extends Controller_Base {
@@ -14,7 +15,7 @@ class Controller_Home extends Controller_Base {
 
        // $data = $this->lifx_init();
        // $data = $this->lifx_toggle();
-       $data;
+       $data = scrape_tides();
 
         return $data;
     }
