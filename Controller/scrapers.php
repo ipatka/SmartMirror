@@ -110,15 +110,15 @@ class Controller_Scrape extends Controller_Base {
                 "today_high_2" => trim($tidesarray1[10]),
                 "today_low_1" => trim($tidesarray1[16]),
                 "today_low_2" => trim($tidesarray1[20]),
-                "today_sunrise" => trim($tidesarray1[26]),
-                "today_sunset" => trim($tidesarray1[28]),
+                // "today_sunrise" => trim($tidesarray1[26]),
+                // "today_sunset" => trim($tidesarray1[28]),
 
                 "tomorrow_high_1" => trim($tidesarray2[6]),
                 "tomorrow_high_2" => trim($tidesarray2[10]),
                 "tomorrow_low_1" => trim($tidesarray2[16]),
-                "tomorrow_low_2" => trim($tidesarray2[20]),
-                "tomorrow_sunrise" => trim($tidesarray2[26]),
-                "tomorrow_sunset" => trim($tidesarray2[28])
+                "tomorrow_low_2" => trim($tidesarray2[20])
+                // "tomorrow_sunrise" => trim($tidesarray2[26]),
+                // "tomorrow_sunset" => trim($tidesarray2[28])
 
         ];
 
@@ -131,15 +131,15 @@ class Controller_Scrape extends Controller_Base {
                 "today_high_2" => trim($tidesarray[10]),
                 "today_low_1" => trim($tidesarray[16]),
                 "today_low_2" => trim($tidesarray[20]),
-                "today_sunrise" => trim($tidesarray[26]),
-                "today_sunset" => trim($tidesarray[28]),
+                // "today_sunrise" => trim($tidesarray[26]),
+                // "today_sunset" => trim($tidesarray[28]),
 
                 "tomorrow_high_1" => trim($tidesarray[38]),
                 "tomorrow_high_2" => trim($tidesarray[42]),
                 "tomorrow_low_1" => trim($tidesarray[48]),
-                "tomorrow_low_2" => trim($tidesarray[52]),
-                "tomorrow_sunrise" => trim($tidesarray[58]),
-                "tomorrow_sunset" => trim($tidesarray[60])
+                "tomorrow_low_2" => trim($tidesarray[52])
+                // "tomorrow_sunrise" => trim($tidesarray[58]),
+                // "tomorrow_sunset" => trim($tidesarray[60])
 
         ];
         }

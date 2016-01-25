@@ -2,30 +2,32 @@ $(document).ready(function() {
 
 // $("#weather").kinetic();
 
-checkTides();
+// checkTides();
 
 var chart = initChart();
 
-WeatherToTimeline(chart);
+getWeather(chart);
+
+getTides(chart);
 
 });
 
 function checkTides() {
 	$.post("/Controller/scrapers.php",{tide:'today'}).done(function(data) {
-		console.log(data);
+		// console.log(data);
 	});
 }
 
 
-function WeatherToTimeline(chart) {
+function getWeather(chart) {
 
 	$.ajax({
 			url: "https://api.forecast.io/forecast/"+forecastAPIKey+"/"+forecastLatLong,
 			type: "get",
 			dataType: "jsonp",
 			success: function(response) {
-				updateTimeline(chart, response);
-				console.log(response);
+				updateTimelineWeather(chart, response);
+				// console.log(response);
 			
 			},
 			error: function() {
@@ -34,7 +36,17 @@ function WeatherToTimeline(chart) {
 		});
 }
 
-function updateTimeline(chart, weather) {
+function getTides(chart) {
+	$.post("/Controller/scrapers.php",{tide:'today'}).done(function(response) {
+		response = $.parseJSON(response);
+		updateTimelineTides(chart, response);
+		console.log(response);
+	}).fail(function(){
+			console.log("Couldn't grab tides");
+	});
+}
+
+function updateTimelineWeather(chart, weather) {
 	// console.log(weather);
 	var temp = Math.round(weather.currently.temperature);
 	var icon = weather.currently.icon;
@@ -43,16 +55,94 @@ function updateTimeline(chart, weather) {
 	var nexthourshort = nexthour.replace("starting ","");
 	var mintilrain = nexthour.replace(/[^0-9]/g,'');
 	var hourlyweather = getHourlyWeatherData(weather);
-	setTimeline(chart, hourlyweather);
+	setTimeline(chart, 'weather', hourlyweather);
 }
 
+function updateTimelineTides(chart, tides) {
+	var hourlyTides = getHourlyTideData(tides);
+	setTimeline(chart, 'tides', hourlyTides);
+}
+
+// Date.UTC(1970, 9, 21, 0, 30)
+
+function getHourlyTideData(tides) {
+	var upcomingTides = [];
+	var split_string;
+	var hours;
+	var minutes;
+
+	var year;
+	var month;
+	var day;
+
+	var today = new Date();
+	var tomorrow = new Date(+new Date() + 86400000);
+	console.log(today);
+	console.log(tomorrow);
+
+
+	var date;
+	var tide;
+
+	var datetime;
+
+	$.each(tides, function(i, item) {
+		split_string = item.split(":");
+		hours = split_string[0];
+		minutes = split_string[1];
+		if (/today/i.test(i)) {
+			date = today;
+			if (/high/i.test(i)) {
+				tide = 'high';
+				// console.log('today high '+hours);
+			} else if (/low/i.test(i)) {
+				tide = 'low';
+				// console.log('today low '+hours);
+			}
+		} else if (/tomorrow/i.test(i)) {
+			date = tomorrow;
+			if (/high/i.test(i)) {
+				tide = 'high';
+				// console.log('tomorrow high '+hours);
+			} else if (/low/i.test(i)) {
+				tide = 'low';
+				// console.log('tomorrow low '+hours);
+			}
+		}
+		// console.log(i +' '+item);
+		year = date.getFullYear();
+		month = date.getMonth();
+		day = date.getDate();
+		datetime = Date.UTC(year, month, day, hours, minutes);
+		console.log(year+','+month+','+day+','+hours+','+minutes);
+		// console.log(datetime);
+		console.log(tide);
+
+		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 45, "height": 45 } }');
+
+		dataPoint = [
+			datetime,
+			0
+		];
+		// Don't include earlier than right now or more than 24 hr from now so it matches the weather timeline
+		if ((datetime > today) && (datetime < tomorrow)) {
+			upcomingTides.push(formattedDataPoint);
+		}
+		// console.log(hours+':'+minutes);
+	});
+	return upcomingTides;
+	// console.log(tidesarray.length);
+
+}
+
+
 function getHourlyWeatherData(weather) {
-	upcomingWeather = [];
+	var upcomingWeather = [];
 	// console.log(Date.UTC(2016, 0, 21, 0, 30));
 	for (i = 0; i < 24; i+=2) {
 
 
-		console.log(weather.hourly.data[i].time*1000); // need the *1000
+		// console.log(weather.hourly.data[i].time*1000); // need the *1000
 		
 		var date = weather.hourly.data[i].time*1000;
 		// var date = new Date(weather.hourly.data[i].time*1000);
@@ -135,8 +225,14 @@ function getHourlyWeatherData(weather) {
 
 }
 
-function setTimeline(chart, data) {
-	chart.series[0].setData(data);
+function setTimeline(chart, seriestype,  data) {
+	var seriesnum;
+	if (seriestype == 'weather') {
+		seriesnum = 0;
+	} else if (seriestype == 'tides') {
+		seriesnum = 1;
+	}
+	chart.series[seriesnum].setData(data);
 }
 
 function initChart() {
@@ -188,10 +284,6 @@ function initChart() {
             min: 0,
             gridLineWidth: 0,
         }],
-        tooltip: {
-            headerFormat: '<b>{series.name}</b><br>',
-            pointFormat: '{point.x:%e. %b}: {point.y:.2f} m'
-        },
 
         plotOptions: {
             spline: {
@@ -203,7 +295,6 @@ function initChart() {
 								lineWidth: 4
 							},
 							dataLabels: {
-								enabled: true,
 								useHTML: true,
 								y: -10,
 								x: 1,
