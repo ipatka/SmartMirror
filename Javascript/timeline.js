@@ -118,12 +118,9 @@ function getHourlyTideData(tides) {
 		// console.log(datetime);
 		console.log(tide);
 
-		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 25, "height": 25 } }');
+		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0.05, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 25, "height": 25 } }');
 
-		dataPoint = [
-			datetime,
-			0.5
-		];
+		
 		// Don't include earlier than right now or more than 24 hr from now so it matches the weather timeline
 		if ((datetime > today) && (datetime < tomorrow)) {
 			upcomingTides.push(formattedDataPoint);
@@ -233,9 +230,10 @@ function setTimeline(chart, seriestype,  data) {
 		seriesnum = 1;
 	}
 	chart.series[seriesnum].setData(data);
-
-	var extremes = chart.yAxis[seriesnum].getExtremes();
-	chart.yAxis[seriesnum].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
+	if (seriestype == 'weather') {
+		var extremes = chart.yAxis[seriesnum].getExtremes();
+		chart.yAxis[seriesnum].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
+	}
 }
 
 function initChart() {
@@ -264,10 +262,10 @@ function initChart() {
         },
         xAxis: {
             type: 'datetime',
-            startOnTick: true,
+            startOnTick: false,
             lineWidth: 0,
             tickWidth: 0,
-            minPadding: 0.01,
+            minPadding: 0.015,
             dateTimeLabelFormats: { // don't display the dummy year
                 month: '%e. %b',
                 year: '%b'
@@ -317,6 +315,7 @@ function initChart() {
 					enabled: false,
 				},
             	min: 0,
+            	max: 1,
             	minPadding: 0.15,
            		gridLineWidth: 0,
         	}
