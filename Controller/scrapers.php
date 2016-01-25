@@ -13,7 +13,6 @@ class Controller_Scrape extends Controller_Base {
         if($_POST['tide']) {
             $tides = $this->scrape_tides();
             echo json_encode($tides);
-            // echo 'test';
         }
         
         

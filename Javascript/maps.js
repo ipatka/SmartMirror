@@ -14,7 +14,7 @@ $(document).ready(function(){
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 11,
-    center: {lat: 32.7315206, lng: -117.1299825}
+    center: {lat: screenLat, lng: screenLong}
   });
 
   var trafficLayer = new google.maps.TrafficLayer();

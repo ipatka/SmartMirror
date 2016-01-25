@@ -8,18 +8,18 @@ $(document).ready(function() {
 
 
 
-var uber_token = 'wLT4d9aIoSdRyctnbTQ9hW574lgs3HplAZxyLzR2';
+// var uber_token = 'wLT4d9aIoSdRyctnbTQ9hW574lgs3HplAZxyLzR2';
 
 function getUber() {
 
 	$.ajax({
 		url: "https://api.uber.com/v1/estimates/time",
 		headers: {
-			Authorization: "Token " + uber_token
+			Authorization: "Token " + uberAPIKey
 		},
 		data: { 
-			start_latitude: '32.7315206',
-			start_longitude: '-117.1299825'
+			start_latitude: screenLat,
+			start_longitude: screenLong
 		},
 		success: function(result) {
 			// console.log(JSON.stringify(result));
