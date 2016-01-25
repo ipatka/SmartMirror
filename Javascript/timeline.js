@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-// $("#weather").kinetic();
+$("#weather").kinetic();
 
 // checkTides();
 
@@ -118,11 +118,11 @@ function getHourlyTideData(tides) {
 		// console.log(datetime);
 		console.log(tide);
 
-		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 45, "height": 45 } }');
+		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 25, "height": 25 } }');
 
 		dataPoint = [
 			datetime,
-			0
+			0.5
 		];
 		// Don't include earlier than right now or more than 24 hr from now so it matches the weather timeline
 		if ((datetime > today) && (datetime < tomorrow)) {
@@ -233,13 +233,19 @@ function setTimeline(chart, seriestype,  data) {
 		seriesnum = 1;
 	}
 	chart.series[seriesnum].setData(data);
+
+	var extremes = chart.yAxis[seriesnum].getExtremes();
+	chart.yAxis[seriesnum].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
 }
 
 function initChart() {
 	var chart = new Highcharts.Chart({
         chart: {
             renderTo: 'weather',
-            type: 'spline'
+            type: 'spline',
+            height: 290,
+            width: 920,
+            spacing: [0, 0, 0, 0]
         },
         title: {
             text: ''
@@ -247,43 +253,74 @@ function initChart() {
         subtitle: {
             enabled: false
         },
+        legend: {
+        	enabled: false
+        },
+        credits: {
+        	enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
         xAxis: {
             type: 'datetime',
+            startOnTick: true,
             lineWidth: 0,
             tickWidth: 0,
+            minPadding: 0.01,
             dateTimeLabelFormats: { // don't display the dummy year
                 month: '%e. %b',
                 year: '%b'
             },
             labels: {
-							style: {
-								fontSize: 24,
-								color: '#adadad',
-							}
+				style: {
+					fontSize: 24,
+					color: '#adadad',
 						},
+				formatter: function () {
+					var now = new Date();
+                    var label = new Date(this.value);
+                    var label_hours = label.getHours();
+                    var label_minutes = label.getMinutes();
+                    var label_date = label.getDate();
+                    if (label <= now) {
+                    	return 'Now';
+                    } else {
+            			return (label_hours > 12 ? (label_hours - 12)+'pm' : (label_hours == 0 ? 12 : label_hours)+'am');
+                    }
+                	}
+					},
             title: {
                 text: ''
             }
         },
-        yAxis: [{
-            min: 0,
-            gridLineWidth: 0,
-            title: {
-							enabled: false,
-						},
-						labels: {
-							enabled: false,
-						}
-        },{
+        tooltip: {
+        			enabled: false
+    			},
+        yAxis: [
+        	{
+            	min: 0,
+            	minPadding: 0.15,
+            	gridLineWidth: 0,
+            	title: {
+					enabled: false,
+				},
+				labels: {
+					enabled: false,
+				}
+        	},
+        	{
         		title: {
-							enabled: false,
-						},
-						labels: {
-							enabled: false,
-						},
-            min: 0,
-            gridLineWidth: 0,
-        }],
+					enabled: false,
+					},
+				labels: {
+					enabled: false,
+				},
+            	min: 0,
+            	minPadding: 0.15,
+           		gridLineWidth: 0,
+        	}
+        		],
 
         plotOptions: {
             spline: {
