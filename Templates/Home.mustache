@@ -27,19 +27,36 @@
 
 <script type="text/javascript" src="/Javascript/timeline.js"></script>
 
+
+
 <!-- <script src="/Javascript/weather.js"></script> -->
 
 
 
-
-  <link rel="stylesheet" type="text/css" href="/CSS/style.css">
-  <link rel="stylesheet" type="text/css" href="/CSS/home.css">
+<link rel="stylesheet" type="text/css" href="/CSS/style.css">
+<link rel="stylesheet" type="text/css" href="/CSS/home.css">
 
 </head>
 
 <div class="screen_left">
-	<div id="time"></div>
-	<div id="date" class="left_lower"></div>
+	<!-- <div id="time"></div>
+	<div id="date" class="left_lower"></div> -->
+	<div class="map">
+			<div id="map" style="display:none"></div>
+	</div>
+	<div class="buttons">
+			<div class="button" id="toggle">
+				<img class="button_icon_with_text" src="/images/lightbulb.png">
+				<div class="button_text" id="lifx_text"></div>
+			</div>
+			<div class="button" id="traffic">
+				<img class="button_icon" src="/images/traffic.png">
+			</div>
+			<div class="button" id="uber">
+				<img class="button_icon_with_text" src="/images/uberlogo.png">
+				<div class="button_text" id="uber_text"></div>
+			</div>
+		</div>
 <!-- 	<div>High Tide 1: {{today_high_1}}</div>
 	<div>Low Tide 1: {{today_low_1}}</div>
 	<div>High Tide 2: {{today_high_2}}</div>
@@ -60,7 +77,11 @@
 		<div id="weather"></div>
 	</div>
 	<div class="right_lower">
-		<div class="map">
+		<div class="time_section">
+			<div id="time" class="large_font"></div>
+			<div id="date" class="subtitle"></div>
+		</div>
+		<!-- <div class="map">
 			<div id="map" style="display:none"></div>
 		</div>
 		<div class="buttons">
@@ -75,7 +96,7 @@
 				<img class="button_icon_with_text" src="/images/uberlogo.png">
 				<div class="button_text" id="uber_text"></div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </div>
 

@@ -40,7 +40,7 @@ function getTides(chart) {
 	$.post("/Controller/scrapers.php",{tide:'today'}).done(function(response) {
 		response = $.parseJSON(response);
 		updateTimelineTides(chart, response);
-		console.log(response);
+		// console.log(response);
 	}).fail(function(){
 			console.log("Couldn't grab tides");
 	});
@@ -77,8 +77,8 @@ function getHourlyTideData(tides) {
 
 	var today = new Date();
 	var tomorrow = new Date(+new Date() + 86400000);
-	console.log(today);
-	console.log(tomorrow);
+	// console.log(today);
+	// console.log(tomorrow);
 
 
 	var date;
@@ -114,9 +114,9 @@ function getHourlyTideData(tides) {
 		month = date.getMonth();
 		day = date.getDate();
 		datetime = Date.UTC(year, month, day, hours, minutes);
-		console.log(year+','+month+','+day+','+hours+','+minutes);
+		// console.log(year+','+month+','+day+','+hours+','+minutes);
 		// console.log(datetime);
-		console.log(tide);
+		// console.log(tide);
 
 		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0.05, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 25, "height": 25 } }');
 
@@ -134,7 +134,7 @@ function getHourlyTideData(tides) {
 
 
 function getHourlyWeatherData(weather) {
-	console.log(weather);
+	// console.log(weather);
 	var upcomingWeather = [];
 	// console.log(Date.UTC(2016, 0, 21, 0, 30));
 	for (i = 0; i < 24; i+=2) {
@@ -144,7 +144,7 @@ function getHourlyWeatherData(weather) {
 		
 		var date = weather.hourly.data[i].time*1000;
 		// console.log(new Date(date));
-		console.log(date);
+		// console.log(date);
   //   	date_handle.setMinutes(0);
   //   	var date = date_handle.parse();
 		

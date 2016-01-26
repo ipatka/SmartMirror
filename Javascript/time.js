@@ -10,27 +10,35 @@ function startTime() {
     //Date
     var date = today.getDate();
     var day = today.getDay();
+    var month = today.getMonth();
 
     day = checkDay(day);
     date = date+checkDate(date);
+    month = checkMonth(month);
 
-	$('#date').text(day+" the "+date);
+	$('#date').text(day+" the "+date+" of "+month);
 
 
 	//Time
     var h=today.getHours();
     var m=today.getMinutes();
+    var time_text = checkTime(h,m);
 
-    m = checkTime(m);
+    // m = checkTime(h,m);
 
-    $('#time').text(h+":"+m);
+    $('#time').text(time_text);
     
-    var t = setTimeout(function(){startTime()},500);
+    var t = setTimeout(function(){startTime();},500);
 }
 
-function checkTime(i) {
-    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
-    return i;
+// return (label_hours > 12 ? (label_hours - 12)+'pm' : (label_hours == 0 ? 12 : label_hours)+'am');
+
+function checkTime(hours, minutes) {
+    var hours_text = (hours > 12 ? (hours - 12) : (hours === 0 ? 12 : hours));
+    var minutes_text = (minutes < 10 ? '0'+minutes : minutes);
+    var time_label = (hours > 12 ? 'pm' : 'am');
+    // if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    return hours_text+":"+minutes_text+time_label;
 }
 
 function checkDay(day) {
@@ -91,6 +99,51 @@ switch (date) {
 }
 
 return suffix;
+
+}
+
+function checkMonth(month) {
+
+switch (month) {
+    case 0:
+        day = "January";
+        break;
+    case 1:
+        day = "February";
+        break;
+    case 2:
+        day = "March";
+        break;
+    case 3:
+        day = "April";
+        break;
+    case 4:
+        day = "May";
+        break;
+    case 5:
+        day = "June";
+        break;
+    case 6:
+        day = "July";
+        break;
+    case 6:
+        day = "August";
+        break;
+    case 6:
+        day = "September";
+        break;
+    case 6:
+        day = "October";
+        break;
+    case 6:
+        day = "November";
+        break;
+    case 6:
+        day = "December";
+        break;
+}
+
+return day;
 
 }
 

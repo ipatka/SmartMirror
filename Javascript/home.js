@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
 
+
 // Light
 $('#toggle').click(function(){
 		// alert('click');
@@ -16,32 +17,32 @@ $.post("/Controller/LIFX.php", {toggle : 'couch'}).done(function(returned) {
 $('#traffic').click(function(){
 	$(".buttons").css('display','none');
 	$("#map").css('display','block');
-	$(".right_upper").animate({
-		height: '-=100px'
-	},
-	{ duration: 1000, queue: false });
-	$(".right_lower").animate({
-		height: '+=100px'
-	},
-	{ duration: 1000, queue: false });
+	// $(".right_upper").animate({
+	// 	height: '-=100px'
+	// },
+	// { duration: 1000, queue: false });
+	// $(".right_lower").animate({
+	// 	height: '+=100px'
+	// },
+	// { duration: 1000, queue: false });
 	initMap();
 
 });
 
-$(".right_upper").click(function(){
+$(".right_lower").click(function(){
 	$(".buttons").css('display','block');
 	$("#map").css('display','none');
-	$(".right_upper").animate({
-		height: '+=100px'
-	},
-	{ duration: 1000, queue: false });
-	$(".right_lower").animate({
-		height: '-=100px'
-	},
-	{ duration: 1000, queue: false });
+	// $(".right_upper").animate({
+	// 	height: '+=100px'
+	// },
+	// { duration: 1000, queue: false });
+	// $(".right_lower").animate({
+	// 	height: '-=100px'
+	// },
+	// { duration: 1000, queue: false });
 	// $(".right_upper").css('height','390px');
 	// $(".right_lower").css('height','210px');
-	initMap();
+	// initMap();
 });
 
 
