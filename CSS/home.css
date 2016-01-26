@@ -38,7 +38,7 @@ body {
 }
 
 .right_upper{
-  height: 310px;
+  height: 200px;
   width: 100%;
   /*cursor: none;*/
 }
@@ -52,7 +52,7 @@ body {
 }
 
 .right_lower{
-  height: 170px;
+  height: 280px;
   width: 100%;
 }
 

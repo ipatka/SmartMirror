@@ -134,6 +134,7 @@ function getHourlyTideData(tides) {
 
 
 function getHourlyWeatherData(weather) {
+	console.log(weather);
 	var upcomingWeather = [];
 	// console.log(Date.UTC(2016, 0, 21, 0, 30));
 	for (i = 0; i < 24; i+=2) {
@@ -142,8 +143,10 @@ function getHourlyWeatherData(weather) {
 		// console.log(weather.hourly.data[i].time*1000); // need the *1000
 		
 		var date = weather.hourly.data[i].time*1000;
-		// var date = new Date(weather.hourly.data[i].time*1000);
-		// console.log(date);
+		// console.log(new Date(date));
+		console.log(date);
+  //   	date_handle.setMinutes(0);
+  //   	var date = date_handle.parse();
 		
 		/* TEMP */
 
@@ -211,7 +214,7 @@ function getHourlyWeatherData(weather) {
 		];
 
 		// var formattedDataPoint = "";
-		var formattedDataPoint = $.parseJSON('{ "x" : '+date+', "y" : '+hourTemp+', "marker": { "symbol": "url(images/icons/'+hourSymbol+'.png)", "width": 45, "height": 45 }, "dataLabels": { "color": "'+hourFontColor+'" } }');
+		var formattedDataPoint = $.parseJSON('{ "x" : '+date+', "y" : '+hourTemp+', "marker": { "symbol": "url(images/icons/'+hourSymbol+'.png)", "width": 35, "height": 35 }, "dataLabels": { "color": "'+hourFontColor+'" } }');
 		// Push into array
 		
 		upcomingWeather.push(formattedDataPoint);
@@ -241,12 +244,12 @@ function initChart() {
         chart: {
             renderTo: 'weather',
             type: 'spline',
-            height: 290,
-            width: 920,
+            height: 190,
+            width: 900,
             spacing: [0, 0, 0, 0]
         },
         title: {
-            text: ''
+            text: '' 
         },
         subtitle: {
             enabled: false
@@ -262,26 +265,29 @@ function initChart() {
         },
         xAxis: {
             type: 'datetime',
+            tickInterval: 2 * 3600 * 1000,
             startOnTick: false,
+            endOnTick: false,
             lineWidth: 0,
             tickWidth: 0,
-            minPadding: 0.015,
+            // minPadding: 0.1,
             dateTimeLabelFormats: { // don't display the dummy year
                 month: '%e. %b',
                 year: '%b'
             },
             labels: {
 				style: {
-					fontSize: 24,
+					fontSize: 15,
 					color: '#adadad',
 						},
 				formatter: function () {
 					var now = new Date();
+					var now_date = now.getDate();
+					var now_hours = now.getHours();
                     var label = new Date(this.value);
                     var label_hours = label.getHours();
-                    var label_minutes = label.getMinutes();
                     var label_date = label.getDate();
-                    if (label <= now) {
+                    if ((now_date == label_date)&&(label_hours == now_hours)) {
                     	return 'Now';
                     } else {
             			return (label_hours > 12 ? (label_hours - 12)+'pm' : (label_hours == 0 ? 12 : label_hours)+'am');
@@ -323,7 +329,7 @@ function initChart() {
 
         plotOptions: {
             spline: {
-                lineWidth: 3,
+                lineWidth: 2,
 								animation: true,
 							marker: {
 								radius: 5,
@@ -336,7 +342,7 @@ function initChart() {
 								x: 1,
 								verticalAlign: 'bottom',
 								style: {
-									fontSize: '26px',
+									fontSize: '15px',
 								}
 							}
             }
