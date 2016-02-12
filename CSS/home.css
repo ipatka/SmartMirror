@@ -1,7 +1,7 @@
 body {
-  width: 800px;
+  width: 400px;
   /*was 1024*/
-  height: 480px;
+  height: 800px;
   /*was 600*/
   border: 1px solid black;
   font-family: 'Work Sans', sans-serif;
@@ -23,25 +23,24 @@ body {
 */
 
 
-.screen_left{
+.screen_lower{
   margin: 0px;
   padding: 0px;
-  float: left;
-  height: 100%;
-  width: 30%;
-}
-
-.screen_right{
-  float: left;
-  height: 100%;
-  width: 70%;
-}
-
-.right_upper{
-  height: 200px;
+  /*float: left;*/
+  height: 300px;
   width: 100%;
-  /*cursor: none;*/
 }
+
+.screen_upper{
+  height: 300px;
+  width: 370px;
+  padding: 0 15px;
+
+}
+
+
+
+
 
 #weather{
   height: 100%;
@@ -51,8 +50,8 @@ body {
 
 }
 
-.right_lower{
-  height: 280px;
+.footer{
+  height: 100px;
   width: 100%;
 }
 
@@ -130,10 +129,7 @@ height: 100%;
 
 
 
-#weather {
-  width: 500px;
-  /*text-transform: uppercase;*/
-}
+
 
 i {
   color: black;

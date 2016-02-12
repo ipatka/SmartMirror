@@ -8,6 +8,8 @@ var chart = initChart();
 
 getWeather(chart);
 
+console.log('getting tides');
+
 getTides(chart);
 
 });
@@ -37,10 +39,12 @@ function getWeather(chart) {
 }
 
 function getTides(chart) {
+	console.log('getting tides 2');
 	$.post("/Controller/scrapers.php",{tide:'today'}).done(function(response) {
 		response = $.parseJSON(response);
 		updateTimelineTides(chart, response);
-		// console.log(response);
+		console.log('got tides');
+		console.log(response);
 	}).fail(function(){
 			console.log("Couldn't grab tides");
 	});
@@ -244,7 +248,7 @@ function initChart() {
         chart: {
             renderTo: 'weather',
             type: 'spline',
-            height: 190,
+            height: 290,
             width: 900,
             spacing: [0, 0, 0, 0]
         },
@@ -277,7 +281,7 @@ function initChart() {
             },
             labels: {
 				style: {
-					fontSize: 15,
+					fontSize: 20,
 					color: '#adadad',
 						},
 				formatter: function () {
@@ -342,7 +346,7 @@ function initChart() {
 								x: 1,
 								verticalAlign: 'bottom',
 								style: {
-									fontSize: '15px',
+									fontSize: '20px',
 								}
 							}
             }

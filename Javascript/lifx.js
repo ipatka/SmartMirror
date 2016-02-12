@@ -10,7 +10,7 @@ $(document).ready(function(){
 function checkLights() {
 	$.post("/Controller/LIFX.php",{lights : "all"}).done(function(data) {
 		data = $.parseJSON(data);
-		console.log(data);
+		// console.log(data);
 		var status = data[0].power;
 		var hue = Math.round(data[0].color.hue);
 		var saturation = Math.round(data[0].color.saturation * 100);
