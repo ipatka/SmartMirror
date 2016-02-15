@@ -218,7 +218,7 @@ function getHourlyWeatherData(weather) {
 		];
 
 		// var formattedDataPoint = "";
-		var formattedDataPoint = $.parseJSON('{ "x" : '+date+', "y" : '+hourTemp+', "marker": { "symbol": "url(images/icons/'+hourSymbol+'.png)", "width": 35, "height": 35 }, "dataLabels": { "color": "'+hourFontColor+'" } }');
+		var formattedDataPoint = $.parseJSON('{ "x" : '+date+', "y" : '+hourTemp+', "marker": { "symbol": "url(images/icons/'+hourSymbol+'.png)", "width": 40, "height": 40 }, "dataLabels": { "color": "'+hourFontColor+'" } }');
 		// Push into array
 		
 		upcomingWeather.push(formattedDataPoint);
@@ -270,8 +270,8 @@ function initChart() {
         xAxis: {
             type: 'datetime',
             tickInterval: 2 * 3600 * 1000,
-            startOnTick: false,
-            endOnTick: false,
+            startOnTick: true,
+            endOnTick: true,
             lineWidth: 0,
             tickWidth: 0,
             // minPadding: 0.1,
@@ -281,7 +281,7 @@ function initChart() {
             },
             labels: {
 				style: {
-					fontSize: 20,
+					fontSize: 18,
 					color: '#adadad',
 						},
 				formatter: function () {
@@ -342,11 +342,11 @@ function initChart() {
 							},
 							dataLabels: {
 								useHTML: true,
-								y: -10,
+								y: -12,
 								x: 1,
 								verticalAlign: 'bottom',
 								style: {
-									fontSize: '20px',
+									fontSize: '18px',
 								}
 							}
             }
