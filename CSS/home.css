@@ -67,12 +67,15 @@ body {
 
 .buttons{
 height: 100%;
+padding: 10px 0;
+text-align: center;
 }
 
 .button{
   display: inline-block;
   height: 100px;
   width: 100px;
+  margin: 10px 5px;
   text-align: center;
 }
 

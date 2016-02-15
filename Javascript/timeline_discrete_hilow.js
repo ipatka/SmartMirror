@@ -23,17 +23,15 @@ $("#toggle_tides_weather").click(function() {
 		// switch to tides
 		setVisibilitySeries(chart, 'weather', 'FALSE');
 		setVisibilitySeries(chart, 'tides', 'TRUE');
-		chart.setSize(1400, 290);
+		chart.setSize(600, 290);
 		$(this).data("state", "tides");
-		var extremes = chart.yAxis[1].getExtremes();
-		chart.yAxis[1].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
+		// $("#weather_tide_text").text("Show Weather");
 		$("#weather_tide_img").attr("src","/images/weather.png");
 	} else if (state == "tides") {
 		setVisibilitySeries(chart, 'tides', 'FALSE');
 		setVisibilitySeries(chart, 'weather', 'TRUE');
 		chart.setSize(900, 290);
-		var extremes = chart.yAxis[0].getExtremes();
-		chart.yAxis[0].setExtremes(extremes.dataMin, extremes.dataMax*1.15);		$(this).data("state", "weather");
+		$(this).data("state", "weather");
 		$("#weather_tide_img").attr("src","/images/waves.png");
 	}
 	chart.redraw();
@@ -98,47 +96,75 @@ function updateTimelineTides(chart, tides) {
 
 function getHourlyTideData(tides) {
 	var upcomingTides = [];
+	var split_string;
 	var hours;
 	var minutes;
+
+	var year;
 	var month;
 	var day;
-	var date = new Date();
-	var year = date.getFullYear();
+
+	var today = new Date();
+	var tomorrow = new Date(+new Date() + 86400000);
+
+	year = today.getFullYear();
+	month = today.getMonth();
+	day = today.getDate();
+	hours = today.getHours();
+	minutes = today.getMinutes();
+	datetime = Date.UTC(year, month, day, hours, minutes);
+	
+	//seed with blank data point at now for formatting
+	var datetime_adjusted = datetime + (today.getTimezoneOffset() * 60 * 1000);
+	var formattedDataPointSeed = $.parseJSON('{ "x" : '+datetime_adjusted+', "y" : 0.05, "marker": { "enabled": false } }');
+	upcomingTides.push(formattedDataPointSeed);
+
+
+	var date;
 	var tide;
+
 	var datetime;
 
 
 	$.each(tides, function(i, item) {
-
-
-		// get height
-		height = item.height;
-		// get hours
-		hours = item.hours;
-		// get minutes
-		minutes = item.minutes;
-		// get month
-		month = item.month - 1;
-		// get day
-		day = item.day;
-		
+		split_string = item.split(":");
+		hours = split_string[0];
+		minutes = split_string[1];
+		if (/today/i.test(i)) {
+			date = today;
+			if (/high/i.test(i)) {
+				tide = 'high';
+				// console.log('today high '+hours);
+			} else if (/low/i.test(i)) {
+				tide = 'low';
+				// console.log('today low '+hours);
+			}
+		} else if (/tomorrow/i.test(i)) {
+			date = tomorrow;
+			if (/high/i.test(i)) {
+				tide = 'high';
+				// console.log('tomorrow high '+hours);
+			} else if (/low/i.test(i)) {
+				tide = 'low';
+				// console.log('tomorrow low '+hours);
+			}
+		}
 		// console.log(i +' '+item);
 		year = date.getFullYear();
+		month = date.getMonth();
+		day = date.getDate();
 		datetime = Date.UTC(year, month, day, hours, minutes);
-		var datetime_adjusted = datetime + (date.getTimezoneOffset() * 60 * 1000);
-
-		console.log(new Date(datetime_adjusted));
 		// console.log(year+','+month+','+day+','+hours+','+minutes);
 		// console.log(datetime);
 		// console.log(tide);
 
-		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime_adjusted+', "y" : '+height+' }');
+		var formattedDataPoint = $.parseJSON('{ "x" : '+datetime+', "y" : 0.05, "marker": { "symbol": "url(images/icons/tide-'+tide+'.png)", "width": 25, "height": 25 } }');
 
 		
 		// Don't include earlier than right now or more than 24 hr from now so it matches the weather timeline
-		// if ((datetime > today) && (datetime < tomorrow)) {
+		if ((datetime > today) && (datetime < tomorrow)) {
 			upcomingTides.push(formattedDataPoint);
-		// }
+		}
 		// console.log(hours+':'+minutes);
 	});
 	return upcomingTides;
@@ -160,7 +186,7 @@ function getHourlyWeatherData(weather) {
 		// console.log(weather.hourly.data[i].time*1000); // need the *1000
 		
 		var date = weather.hourly.data[i].time*1000;
-		// console.log(new Date(date));
+		console.log(new Date(date));
 		// console.log(date);
   //   	date_handle.setMinutes(0);
   //   	var date = date_handle.parse();
@@ -250,8 +276,10 @@ function setTimeline(chart, seriestype,  data) {
 		seriesnum = 1;
 	}
 	chart.series[seriesnum].setData(data);
+	if (seriestype == 'weather') {
 		var extremes = chart.yAxis[seriesnum].getExtremes();
 		chart.yAxis[seriesnum].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
+	}
 }
 
 function setVisibilitySeries(chart, seriestype, visible) {
@@ -397,11 +425,12 @@ function initChart() {
             }
         },{
         		yAxis:1,
-        		color: '#dfdfdf',
             name: 'Tides',
-            dataLabels:{
-            enabled: true
-            }
+            marker: {
+                width: 16,
+                height: 16
+            },
+            lineWidth: 0
         }]
     });
 return chart;
