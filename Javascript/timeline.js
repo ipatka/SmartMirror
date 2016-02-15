@@ -8,9 +8,30 @@ var chart = initChart();
 
 getWeather(chart);
 
-console.log('getting tides');
+// console.log('getting tides');
 
 getTides(chart);
+
+setVisibilitySeries(chart, 'tides', 'FALSE');
+$("#toggle_tides_weather").data("state", "weather");
+
+
+$("#toggle_tides_weather").click(function() {
+	var state = $(this).data("state");
+	if (state == "weather") {
+		// switch to tides
+		setVisibilitySeries(chart, 'weather', 'FALSE');
+		setVisibilitySeries(chart, 'tides', 'TRUE');
+		chart.setSize(600, 290);
+		$(this).data("state", "tides");
+	} else if (state == "tides") {
+		setVisibilitySeries(chart, 'tides', 'FALSE');
+		setVisibilitySeries(chart, 'weather', 'TRUE');
+		chart.setSize(900, 290);
+		$(this).data("state", "weather");
+	}
+	chart.redraw();
+});
 
 });
 
@@ -81,14 +102,25 @@ function getHourlyTideData(tides) {
 
 	var today = new Date();
 	var tomorrow = new Date(+new Date() + 86400000);
-	// console.log(today);
-	// console.log(tomorrow);
+
+	year = today.getFullYear();
+	month = today.getMonth();
+	day = today.getDate();
+	hours = today.getHours();
+	minutes = today.getMinutes();
+	datetime = Date.UTC(year, month, day, hours, minutes);
+	
+	//seed with blank data point at now for formatting
+	var datetime_adjusted = datetime + (today.getTimezoneOffset() * 60 * 1000);
+	var formattedDataPointSeed = $.parseJSON('{ "x" : '+datetime_adjusted+', "y" : 0.05, "marker": { "enabled": false } }');
+	upcomingTides.push(formattedDataPointSeed);
 
 
 	var date;
 	var tide;
 
 	var datetime;
+
 
 	$.each(tides, function(i, item) {
 		split_string = item.split(":");
@@ -140,6 +172,9 @@ function getHourlyTideData(tides) {
 function getHourlyWeatherData(weather) {
 	// console.log(weather);
 	var upcomingWeather = [];
+
+
+
 	// console.log(Date.UTC(2016, 0, 21, 0, 30));
 	for (i = 0; i < 24; i+=2) {
 
@@ -147,7 +182,7 @@ function getHourlyWeatherData(weather) {
 		// console.log(weather.hourly.data[i].time*1000); // need the *1000
 		
 		var date = weather.hourly.data[i].time*1000;
-		// console.log(new Date(date));
+		console.log(new Date(date));
 		// console.log(date);
   //   	date_handle.setMinutes(0);
   //   	var date = date_handle.parse();
@@ -242,6 +277,32 @@ function setTimeline(chart, seriestype,  data) {
 		chart.yAxis[seriesnum].setExtremes(extremes.dataMin, extremes.dataMax*1.15);
 	}
 }
+
+function setVisibilitySeries(chart, seriestype, visible) {
+	var seriesnum;
+	if (seriestype == 'weather') {
+		seriesnum = 0;
+	} else if (seriestype == 'tides') {
+		seriesnum = 1;
+	}
+
+	var series = chart.series[seriesnum];
+
+	if (visible == 'FALSE') {
+		if (series.visible) {
+            series.hide();
+    	}
+	} else if (visible == 'TRUE') {
+		if (series.visible) {
+			// Do nothing
+		} else {
+			series.show();
+		}
+	}
+	
+}
+
+
 
 function initChart() {
 	var chart = new Highcharts.Chart({
